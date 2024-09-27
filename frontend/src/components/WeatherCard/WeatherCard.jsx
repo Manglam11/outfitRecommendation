@@ -11,6 +11,7 @@ const WeatherCard = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [isCelsius, setIsCelsius] = useState(true);
+    const [showRecommendations, setShowRecommendations] = useState(false);
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -38,6 +39,13 @@ const WeatherCard = () => {
         const convertedTemp = convertTemp(temp);
         return `${convertedTemp.toFixed(1)}°${isCelsius ? 'C' : 'F'}`;
     };
+
+    const staticOutfits = [
+        { type: 'Hot Weather', description: 'Light, breathable clothing such as shorts and a t-shirt.' },
+        { type: 'Cold Weather', description: 'Warm layers including a coat, scarf, and gloves.' },
+        { type: 'Rainy Weather', description: 'Waterproof jacket, umbrella, and water-resistant shoes.' },
+        { type: 'Mild Weather', description: 'Comfortable clothing like jeans and a light sweater.' },
+    ];
 
     return (
         <div style={{
@@ -89,6 +97,28 @@ const WeatherCard = () => {
                     </Typography>
                 )}
 
+                {!weatherData && (
+                    <Grid container spacing={3} mt={4}>
+                        {staticOutfits.map((outfit, index) => (
+                            <Grid item xs={12} sm={6} md={3} key={index}>
+                                <Card variant="outlined"
+                                    sx={{
+                                        p: 2,
+                                        mb: 2,
+                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                        color: 'black',
+                                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                                    }}>
+                                    <CardContent>
+                                        <Typography variant="h6" gutterBottom>{outfit.type}</Typography>
+                                        <Typography variant="body2">{outfit.description}</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
+
                 {weatherData && (
                     <Grid container spacing={3} mt={4}>
                         <Grid item xs={12}>
@@ -130,16 +160,27 @@ const WeatherCard = () => {
                                     </Grid>
                                 </CardContent>
                             </Card>
-                            <Card variant="outlined"
-                                sx={{
-                                    p: 2,
-                                    mb: 2,
-                                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                    color: 'black',
-                                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                                }}>
-                                <Recommendations weatherData={weatherData} />
-                            </Card>
+                            <Box mt={2} display="flex" justifyContent="center">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => setShowRecommendations(!showRecommendations)}
+                                >
+                                    {showRecommendations ? 'Hide Outfit Recommendations' : 'Show Outfit Recommendations'}
+                                </Button>
+                            </Box>
+                            {showRecommendations && (
+                                <Card variant="outlined"
+                                    sx={{
+                                        p: 2,
+                                        mb: 2,
+                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                        color: 'black',
+                                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                                    }}>
+                                    <Recommendations weatherData={weatherData} />
+                                </Card>
+                            )}
                         </Grid>
                     </Grid>
                 )}
