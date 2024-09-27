@@ -1,74 +1,123 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { Container, Typography, Grid, CardContent, CircularProgress, Card, Box, TextField, Button } from '@mui/material';
+import { fetchWeatherData } from '../../services/weatherApi';
+import Recommendations from '../Recommendations/Recommendations';
+import sky1 from "../../assets/sky1.jpg";
 
 const WeatherCard = () => {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const apiKey = '05baa93e8a6fe998324abef258422816'; // Add your OpenWeather API key here
-
-    const getWeather = async (cityName) => {
-        try {
-            const response = await axios.get(
-                `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`
-            );
-            setWeatherData(response.data);
-            setError('');
-        } catch (err) {
-            setError('City not found');
-            setWeatherData(null);
-        }
-    };
-
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
         if (city) {
-            getWeather(city);
+            setLoading(true);
+            setError('');
+            try {
+                const data = await fetchWeatherData(city);
+                setWeatherData(data);
+            } catch (err) {
+                setError('Failed to fetch weather data. Please try again.');
+                setWeatherData(null);
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Search for Weather</h2>
-            <form onSubmit={handleSearch}>
-                <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="Enter city name"
-                    className="border-2 border-gray-300 p-2 w-full rounded-lg mb-4"
-                />
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600"
-                >
-                    Search
-                </button>
-            </form>
+        <div style={{
+            backgroundImage: `url(${sky1})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "white",
+            transition: "background-image 0.5s ease-in-out",
+        }}>
+            <Container>
+                <Box>
+                    <form onSubmit={handleSearch}>
+                        <TextField
+                            fullWidth
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            placeholder="Enter city name"
+                            variant="outlined"
+                            sx={{ mb: 2, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                        >
+                            Search
+                        </Button>
+                    </form>
 
-            {error && <p className="text-red-500 mt-4">{error}</p>}
+                    {loading && (
+                        <Box display="flex" justifyContent="center" mt={4}>
+                            <CircularProgress />
+                        </Box>
+                    )}
 
-            {weatherData && (
-                <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-                    <h3 className="text-xl font-semibold mb-2">
-                        {weatherData.name}, {weatherData.sys.country}
-                    </h3>
-                    <p>
-                        <span className="font-bold">Temperature:</span>{' '}
-                        {weatherData.main.temp}°C
-                    </p>
-                    <p>
-                        <span className="font-bold">Visibility:</span> {weatherData.visibility} meters
-                    </p>
-                    <p>
-                        <span className="font-bold">Latitude:</span> {weatherData.coord.lat}
-                    </p>
-                    <p>
-                        <span className="font-bold">Longitude:</span> {weatherData.coord.lon}
-                    </p>
-                </div>
-            )}
+                    {error && (
+                        <Typography color="error" mt={2}>
+                            {error}
+                        </Typography>
+                    )}
+
+                    {weatherData && (
+                        <Grid container spacing={3} mt={4}>
+                            <Grid item xs={12}>
+                                <Card variant="outlined"
+                                    sx={{
+                                        p: 2,
+                                        mb: 2,
+                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                        color: 'black',
+                                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                                    }}>
+                                    <CardContent>
+                                        <Typography variant="h6">{weatherData.name}, {weatherData.sys.country}</Typography>
+                                        <Card
+                                            variant="outlined"
+                                            sx={{
+                                                p: 2,
+                                                mb: 2,
+                                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                                color: 'black',
+                                                borderColor: 'rgba(255, 255, 255, 0.5)',
+                                            }} >
+                                            <Typography variant="h6">Weather Data:</Typography>
+                                            <Typography variant="body2">{`Temperature: ${weatherData.main.temp}°C`}</Typography>
+                                            <Typography variant="body2">{`Humidity: ${weatherData.main.humidity}%`}</Typography>
+                                            <Typography variant="body2">{`Wind Speed: ${weatherData.wind.speed} km/h`}</Typography>
+                                            <Typography variant="body2">{weatherData.weather[0].description}</Typography>
+                                        </Card>
+                                        <Card variant="outlined"
+                                            sx={{
+                                                p: 2,
+                                                mb: 2,
+                                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                                color: 'black',
+                                                borderColor: 'rgba(255, 255, 255, 0.5)',
+                                            }}>
+                                            <Recommendations weatherData={weatherData} />
+                                        </Card>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    )}
+                </Box>
+            </Container>
         </div>
     );
 };
