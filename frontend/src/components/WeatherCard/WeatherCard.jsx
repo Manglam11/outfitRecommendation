@@ -49,6 +49,7 @@ const WeatherCard = () => {
             flexDirection: "column",
             color: "white",
             transition: "background-image 0.5s ease-in-out",
+            marginTop: '3rem'
         }}>
             <Container style={{ paddingLeft: '5%', paddingRight: '5%' }}>
                 <Box my={4}>

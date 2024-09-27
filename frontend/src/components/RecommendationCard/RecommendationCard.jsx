@@ -3,14 +3,26 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 
 const RecommendationCard = ({ title, description, imageUrl }) => {
     return (
-        <Card sx={{ maxWidth: 345, m: 2 }}>
+        <Card sx={{
+            maxWidth: 350,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
             <CardMedia
                 component="img"
                 height="140"
                 image={imageUrl}
                 alt={title}
+                sx={{
+                    height: "70%",
+                    objectFit: "cover"
+                }}
             />
-            <CardContent>
+            <CardContent
+            sx={{
+                height: "30%"
+            }}>
                 <Typography gutterBottom variant="h5" component="div">
                     {title}
                 </Typography>

@@ -6,7 +6,7 @@ const Header = () => {
     const { user, logOut } = useAuth();
 
     return (
-        <header className="bg-slate-600 p-4 flex justify-between items-center">
+        <header className="bg-slate-600 p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
             {/* Logo */}
             <div className="text-white text-xl font-bold">
                 <Link to="/">OutfitRecommendation</Link>
