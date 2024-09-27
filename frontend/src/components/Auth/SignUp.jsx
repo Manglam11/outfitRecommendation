@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuth } from "../../context/AuthContext";
 import "../../styles/auth.css"; // Import the styles
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { user } = useAuth(); // Get user from context
@@ -15,7 +16,8 @@ const SignUp = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(userCredential.user, { displayName: name });
             navigate("/"); // Redirect after signup
         } catch (error) {
             setError(error.message);
@@ -26,6 +28,7 @@ const SignUp = () => {
         <div className="auth-container">
             <form className="auth-form" onSubmit={handleSignUp}>
                 <h2>Sign Up</h2>
+               
                 <input
                     type="email"
                     placeholder="Email"
