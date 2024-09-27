@@ -14,14 +14,22 @@ import Gallery from "./components/Gallery/Gallery";
 import WeatherCard from "./components/WeatherCard/WeatherCard";
 import SignUp from "./components/Auth/SignUp";
 import Login from "./components/Auth/Login";
-import { AuthProvider } from "./context/AuthContext"; // Import AuthProvider
+import PrivateRoute from "./components/Auth/PrivateRoute";  // Import PrivateRoute
+import { AuthProvider } from "./context/AuthContext";  // Import AuthProvider
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route path="" element={<Home />} />
       <Route path="gallery" element={<Gallery />} />
-      <Route path="card" element={<WeatherCard />} />
+      <Route
+        path="card"
+        element={
+          <PrivateRoute>
+            <WeatherCard />
+          </PrivateRoute>
+        }
+      />
       <Route path="signup" element={<SignUp />} />
       <Route path="login" element={<Login />} />
     </Route>
