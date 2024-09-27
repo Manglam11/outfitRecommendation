@@ -1,0 +1,130 @@
+const recommendationData = [
+  {
+    type: "hat",
+    title: "Rain Hat",
+    description: "A waterproof hat to keep your head dry in rainy weather.",
+    imageUrl: "/images/recommendations/rain-hat.jpg",
+  },
+  {
+    type: "accessory",
+    title: "Umbrella",
+    description: "Essential for staying dry during rain showers.",
+    imageUrl: "/images/recommendations/umbrella.jpg",
+  },
+  {
+    type: "hat",
+    title: "Windproof Hat",
+    description: "A sturdy hat that will not blow away in strong winds.",
+    imageUrl: "/images/recommendations/windproof-hat.jpg",
+  },
+  {
+    type: "hat",
+    title: "Sun Hat",
+    description: "Protect your face and neck from the sun on bright days.",
+    imageUrl: "/images/recommendations/sun-hat.jpg",
+  },
+  {
+    type: "hat",
+    title: "Generic Hat",
+    description: "A versatile hat suitable for various weather conditions.",
+    imageUrl: "/images/recommendations/generic-hat.jpg",
+  },
+  {
+    type: "shoes",
+    title: "Waterproof Boots",
+    description: "Keep your feet dry in wet conditions.",
+    imageUrl: "/images/recommendations/waterproof-boots.jpg",
+  },
+  {
+    type: "shoes",
+    title: "Warm Boots",
+    description: "Insulated boots for cold weather.",
+    imageUrl: "/images/recommendations/warm-boots.jpg",
+  },
+  {
+    type: "shoes",
+    title: "Sandals",
+    description: "Open shoes for hot weather.",
+    imageUrl: "/images/recommendations/sandals.jpg",
+  },
+  {
+    type: "shoes",
+    title: "Comfortable Shoes",
+    description: "All-purpose shoes for everyday wear.",
+    imageUrl: "/images/recommendations/comfortable-shoes.jpg",
+  },
+  {
+    type: "accessory",
+    title: "Sunglasses",
+    description: "Protect your eyes on bright, sunny days.",
+    imageUrl: "/images/recommendations/sunglasses.jpg",
+  },
+  {
+    type: "accessory",
+    title: "Water Bottle",
+    description: "Stay hydrated, especially in hot weather.",
+    imageUrl: "/images/recommendations/water-bottle.jpg",
+  },
+  {
+    type: "accessory",
+    title: "Light Scarf",
+    description: "A versatile accessory for mild temperatures.",
+    imageUrl: "/images/recommendations/light-scarf.jpg",
+  },
+  {
+    type: "outerwear",
+    title: "Heavy Coat",
+    description: "A thick coat for very cold temperatures.",
+    imageUrl: "/images/recommendations/heavy-coat.jpg",
+  },
+  {
+    type: "outerwear",
+    title: "Sweater",
+    description: "A warm layer for cool weather.",
+    imageUrl: "/images/recommendations/sweater.jpg",
+  },
+  {
+    type: "clothing",
+    title: "Thermal Wear",
+    description: "Base layer for extremely cold conditions.",
+    imageUrl: "/images/recommendations/thermal-wear.jpg",
+  },
+  {
+    type: "outerwear",
+    title: "Raincoat",
+    description: "A waterproof coat for rainy days.",
+    imageUrl: "/images/recommendations/raincoat.jpg",
+  },
+  {
+    type: "outerwear",
+    title: "Waterproof Jacket",
+    description: "Lightweight protection from rain.",
+    imageUrl: "/images/recommendations/waterproof-jacket.jpg",
+  },
+  {
+    type: "outerwear",
+    title: "Light Jacket",
+    description: "Perfect for mild or slightly cool weather.",
+    imageUrl: "/images/recommendations/light-jacket.jpg",
+  },
+  {
+    type: "outerwear",
+    title: "Windbreaker",
+    description: "Protect against wind and light rain.",
+    imageUrl: "/images/recommendations/windbreaker.jpg",
+  },
+  {
+    type: "clothing",
+    title: "T-shirt",
+    description: "A light top for warm weather.",
+    imageUrl: "/images/recommendations/t-shirt.jpg",
+  },
+  {
+    type: "clothing",
+    title: "Breathable Shirt",
+    description: "Moisture-wicking shirt for hot or humid conditions.",
+    imageUrl: "/images/recommendations/breathable-shirt.jpg",
+  },
+];
+
+export default recommendationData;
