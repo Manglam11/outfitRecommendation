@@ -4,6 +4,8 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 const app = express();
+const userRoute = require('./routes/userRoute')
+
 app.use(express.json());
 
 mongoose.connect(process.env.mongoURL)
@@ -19,6 +21,3 @@ mongoose.connect(process.env.mongoURL)
 
 
 
-app.get('/',  (req, res) => {
-    res.send('Hello World!')
-})

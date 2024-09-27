@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';  // Correctly importing the AuthContext
+import { useAuth } from '../../context/AuthContext';
 
 const Header = () => {
-    const { user, logOut } = useAuth();  // Access user info and logout function
+    const { user, logOut } = useAuth();
 
     return (
         <header className="bg-slate-600 p-4 flex justify-between items-center">
@@ -14,15 +14,6 @@ const Header = () => {
 
             {/* Navigation */}
             <nav className="flex space-x-4">
-                {/* Gallery & Weather Card Always Visible */}
-                <NavLink
-                    to="/gallery"
-                    className={({ isActive }) =>
-                        isActive ? 'text-yellow-300' : 'text-white'
-                    }
-                >
-                    Gallery
-                </NavLink>
                 <NavLink
                     to="/card"
                     className={({ isActive }) =>
@@ -32,17 +23,11 @@ const Header = () => {
                     Weather Card
                 </NavLink>
 
-                {/* If user is logged in, show profile and logout options */}
                 {user ? (
                     <>
-                        <NavLink
-                            to="/profile"
-                            className={({ isActive }) =>
-                                isActive ? 'text-yellow-300' : 'text-white'
-                            }
-                        >
-                            Profile
-                        </NavLink>
+                        <span className="text-white">
+                            {user.email}
+                        </span>
                         <button
                             onClick={logOut}
                             className="text-white hover:text-yellow-300"
@@ -51,7 +36,6 @@ const Header = () => {
                         </button>
                     </>
                 ) : (
-                    /* If no user is logged in, show login/signup */
                     <>
                         <NavLink
                             to="/signup"
