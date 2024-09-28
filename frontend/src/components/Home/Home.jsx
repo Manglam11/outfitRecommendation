@@ -9,7 +9,7 @@ const Home = () => {
                 <div className="absolute right-0 top-1/3 transform -translate-y-1/4 z-10 flex flex-col justify-center items-end text-right text-white p-8">
                     <h1 className="text-5xl font-bold mb-4">
                         Welcome to <br />
-                        <span className="text-6xl">WeatherFit!</span>
+                        <span className="text-6xl text-[#7e60bf]">Forecasted Fashion!</span>
                     </h1>
                     <p className="text-xl mb-2">
                         Get real-time outfit recommendations <br />
@@ -20,8 +20,6 @@ const Home = () => {
                 {/* Spline Component */}
                 <main className="flex-grow">
                     <Spline scene="https://prod.spline.design/U8-s2MBeN9SQg18H/scene.splinecode" className="w-full h-full" />
-                    <div className="absolute bottom-0 right-0 w-20 h-8 bg-transparent z-50"></div>
-
                 </main>
             </div>
         </div>

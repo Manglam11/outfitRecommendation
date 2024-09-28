@@ -6,10 +6,10 @@ const Header = () => {
     const { user, logOut } = useAuth();
 
     return (
-        <header className="bg-slate-600 p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+        <header className="bg-[#2e2157] p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
             {/* Logo */}
-            <div className="text-white text-xl font-bold">
-                <Link to="/">OutfitRecommendation</Link>
+            <div className="text-[#7e60bf] text-xl font-bold">
+                <Link to="/">Forecasted Fashion</Link>
             </div>
 
             {/* Navigation */}
@@ -17,7 +17,7 @@ const Header = () => {
                 <NavLink
                     to="/card"
                     className={({ isActive }) =>
-                        isActive ? 'text-yellow-300' : 'text-white'
+                        isActive ? 'text-[#7e60bf]' : 'text-white hover:text-[#7e60bf]'
                     }
                 >
                     Weather Card
@@ -30,7 +30,7 @@ const Header = () => {
                         </span>
                         <button
                             onClick={logOut}
-                            className="text-white hover:text-yellow-300"
+                            className="text-white hover:text-[#7e60bf]"
                         >
                             Logout
                         </button>
@@ -40,7 +40,7 @@ const Header = () => {
                         <NavLink
                             to="/signup"
                             className={({ isActive }) =>
-                                isActive ? 'text-yellow-300' : 'text-white'
+                                isActive ? 'text-[#7e60bf]' : 'text-white hover:text-[#7e60bf]'
                             }
                         >
                             Sign Up
@@ -48,7 +48,7 @@ const Header = () => {
                         <NavLink
                             to="/login"
                             className={({ isActive }) =>
-                                isActive ? 'text-yellow-300' : 'text-white'
+                                isActive ? 'text-[#7e60bf]' : 'text-white hover:text-[#7e60bf]'
                             }
                         >
                             Login
