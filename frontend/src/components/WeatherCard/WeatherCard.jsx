@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Typography, Grid, CardContent, CircularProgress, Card, Box, TextField, Button, Switch, FormControlLabel } from '@mui/material';
+import { Container, Typography, Grid, CardContent, CircularProgress, Card, Box, TextField, Button } from '@mui/material';
 import { WiThermometer, WiHumidity, WiStrongWind, WiBarometer } from 'react-icons/wi';
-import { fetchWeatherData } from '../../services/weatherApi';
 import Recommendations from '../Recommendations/Recommendations';
 import sky1 from "../../assets/sky1.jpg";
 
@@ -10,42 +9,28 @@ const WeatherCard = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [isCelsius, setIsCelsius] = useState(true);
     const [showRecommendations, setShowRecommendations] = useState(false);
 
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        if (city) {
-            setLoading(true);
-            setError('');
-            try {
-                const data = await fetchWeatherData(city);
-                setWeatherData(data);
-            } catch (err) {
-                setError('Failed to fetch weather data. Please try again.');
-                setWeatherData(null);
-            } finally {
-                setLoading(false);
+    const handleSearch = async () => {
+        if (!city) return;
+
+        setLoading(true);
+        setError('');
+        setWeatherData(null);
+
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=05baa93e8a6fe998324abef258422816&units=metric`);
+            if (!response.ok) {
+                throw new Error('City not found');
             }
+            const data = await response.json();
+            setWeatherData(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
-
-    const convertTemp = (temp) => {
-        if (isCelsius) return temp;
-        return (temp * 9 / 5) + 32;
-    };
-
-    const formatTemp = (temp) => {
-        const convertedTemp = convertTemp(temp);
-        return `${convertedTemp.toFixed(1)}°${isCelsius ? 'C' : 'F'}`;
-    };
-
-    const staticOutfits = [
-        { type: 'Hot Weather', description: 'Light, breathable clothing such as shorts and a t-shirt.' },
-        { type: 'Cold Weather', description: 'Warm layers including a coat, scarf, and gloves.' },
-        { type: 'Rainy Weather', description: 'Waterproof jacket, umbrella, and water-resistant shoes.' },
-        { type: 'Mild Weather', description: 'Comfortable clothing like jeans and a light sweater.' },
-    ];
 
     return (
         <div style={{
@@ -97,56 +82,27 @@ const WeatherCard = () => {
                     </Typography>
                 )}
 
-                {!weatherData && (
-                    <Grid container spacing={3} mt={4}>
-                        {staticOutfits.map((outfit, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <Card variant="outlined"
-                                    sx={{
-                                        p: 2,
-                                        mb: 2,
-                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                        color: 'black',
-                                        borderColor: 'rgba(255, 255, 255, 0.5)',
-                                    }}>
-                                    <CardContent>
-                                        <Typography variant="h6" gutterBottom>{outfit.type}</Typography>
-                                        <Typography variant="body2">{outfit.description}</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                )}
-
                 {weatherData && (
                     <Grid container spacing={3} mt={4}>
                         <Grid item xs={12}>
-                            <Card variant="outlined"
-                                sx={{
-                                    p: 2,
-                                    mb: 2,
-                                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                    color: 'black',
-                                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                                }}>
+                            <Card variant="outlined" sx={{
+                                p: 2,
+                                mb: 2,
+                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                color: 'black',
+                                borderColor: 'rgba(255, 255, 255, 0.5)',
+                            }}>
                                 <CardContent>
                                     <Typography variant="h4" gutterBottom>{weatherData.name}, {weatherData.sys.country}</Typography>
                                     <Typography variant="h6">{weatherData.weather[0].description}</Typography>
-
                                     <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
                                         <Typography variant="h3">
-                                            <WiThermometer /> {formatTemp(weatherData.main.temp)}
+                                            <WiThermometer /> {Math.round(weatherData.main.temp)}°C
                                         </Typography>
-                                        <FormControlLabel
-                                            control={<Switch checked={isCelsius} onChange={() => setIsCelsius(!isCelsius)} />}
-                                            label={isCelsius ? "Celsius" : "Fahrenheit"}
-                                        />
                                     </Box>
-
                                     <Grid container spacing={2} mt={2}>
                                         <Grid item xs={6} sm={3}>
-                                            <Typography variant="body1"><WiThermometer /> Feels like: {formatTemp(weatherData.main.feels_like)}</Typography>
+                                            <Typography variant="body1"><WiThermometer /> Feels like: {Math.round(weatherData.main.feels_like)}°C</Typography>
                                         </Grid>
                                         <Grid item xs={6} sm={3}>
                                             <Typography variant="body1"><WiHumidity /> Humidity: {weatherData.main.humidity}%</Typography>
@@ -170,14 +126,13 @@ const WeatherCard = () => {
                                 </Button>
                             </Box>
                             {showRecommendations && (
-                                <Card variant="outlined"
-                                    sx={{
-                                        p: 2,
-                                        mb: 2,
-                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                        color: 'black',
-                                        borderColor: 'rgba(255, 255, 255, 0.5)',
-                                    }}>
+                                <Card variant="outlined" sx={{
+                                    mt: 2,
+                                    p: 2,
+                                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                    color: 'black',
+                                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                                }}>
                                     <Recommendations weatherData={weatherData} />
                                 </Card>
                             )}

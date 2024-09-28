@@ -14,22 +14,44 @@ const Recommendations = ({ weatherData }) => {
     const rain = weatherData.rain;
     const rainIntensity = rain ? rain["1h"] || rain["3h"] || 0 : 0;
 
+    const getWeatherTags = () => {
+        const tags = [];
+
+        // Temperature-based tags
+        if (temperature < 0) tags.push("very-cold");
+        else if (temperature < 10) tags.push("cold");
+        else if (temperature < 20) tags.push("cool");
+        else if (temperature < 25) tags.push("mild");
+        else if (temperature < 30) tags.push("warm");
+        else tags.push("hot");
+
+        // Weather condition tags
+        if (weatherDescription.includes("rain")) {
+            tags.push("rain");
+            if (rainIntensity > 7.6) tags.push("heavy-rain");
+            else if (rainIntensity > 2.5) tags.push("moderate-rain");
+            else tags.push("light-rain");
+        }
+        if (weatherDescription.includes("snow")) tags.push("snow");
+        if (weatherDescription.includes("sun") || weatherDescription.includes("clear")) tags.push("sun");
+        if (weatherDescription.includes("cloud")) tags.push("cloudy");
+
+        // Wind-based tags
+        if (windSpeed > 10.8) tags.push("windy");
+
+        // Humidity-based tags
+        if (humidity > 70) tags.push("humid");
+
+        return tags;
+    };
+
     const getRecommendations = () => {
+        const weatherTags = getWeatherTags();
+        console.log("Weather Tags:", weatherTags);
+
         return recommendationData.filter(item => {
-            switch (item.type) {
-                case 'hat':
-                    return weatherDescription.includes('rain') || temperature < 10 || temperature > 25;
-                case 'accessory':
-                    return weatherDescription.includes('rain') || weatherDescription.includes('sun') || temperature > 25;
-                case 'shoes':
-                    return rainIntensity > 0 || temperature < 5 || temperature > 30;
-                case 'outerwear':
-                    return temperature < 20 || windSpeed > 20 || rainIntensity > 0;
-                case 'clothing':
-                    return temperature < 10 || temperature > 25 || humidity > 70;
-                default:
-                    return false;
-            }
+            const itemTags = item.tags || [];
+            return itemTags.some(tag => weatherTags.includes(tag));
         });
     };
 
