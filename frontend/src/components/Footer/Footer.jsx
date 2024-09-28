@@ -1,83 +1,82 @@
-import React from 'react';
-import { Box, Container, Typography, Link, Grid } from '@mui/material';
-import { GitHub, LinkedIn } from '@mui/icons-material';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-const teamMembers = [
-    {
-        name: 'Manglam Dubey',
-        github: 'https://github.com/Aryan-Singh02',
-        linkedin: 'https://linkedin.com/in/aryan-singh-235a36241/'
-    },
-    {
-        name: 'Aryan Singh',
-        github: 'https://github.com/Aryan-Singh02',
-        linkedin: 'https://linkedin.com/in/aryan-singh-235a36241/'
-    },
-    {
-        name: 'Lekhendra Kumar Sahu',
-        github: 'https://github.com/Aryan-Singh02',
-        linkedin: 'https://linkedin.com/in/aryan-singh-235a36241/'
-    },
-    {
-        name: 'Anubhav Singh',
-        github: 'https://github.com/Aryan-Singh02',
-        linkedin: 'https://linkedin.com/in/aryan-singh-235a36241/'
-    },
-
-];
-
-const Footer = () => {
+export default function Footer() {
     return (
-        <Box
-            component="footer"
-            sx={{
-                backgroundColor: 'rgba(0, 0, 0, 0.87)',
-                color: 'white',
-                py: 3,
-                borderTop: '1px solid',
-                borderColor: 'divider',
-            }}
-        >
-            <Container maxWidth="lg">
-                <Grid container spacing={2} justifyContent="space-between">
-                    <Grid item xs={12} sm={6}>
-                        <Typography variant="h6" gutterBottom>
-                            Hack the Space - MLH Hackathon Project
-                        </Typography>
-                        <Typography variant="body2">
-                            Created with passion by our team of four aspiring developers.
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <Typography variant="h6" gutterBottom>
-                            Our Team
-                        </Typography>
-                        <Grid container spacing={2}>
-                            {teamMembers.map((member, index) => (
-                                <Grid item xs={6} key={index}>
-                                    <Typography variant="body2">{member.name}</Typography>
-                                    <Box>
-                                        <Link href={member.github} target="_blank" rel="noopener noreferrer" color="inherit" sx={{ mr: 1 }}>
-                                            <GitHub fontSize="small" />
-                                        </Link>
-                                        <Link href={member.linkedin} target="_blank" rel="noopener noreferrer" color="inherit">
-                                            <LinkedIn fontSize="small" />
-                                        </Link>
-                                    </Box>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Box mt={2}>
-                    <Typography variant="body2" align="center">
-                        © {new Date().getFullYear()} Weather Outfit Recommender. All rights reserved.
-                    </Typography>
-                </Box>
-            </Container>
-        </Box>
-
+        <footer className="bg-black text-white border-y">
+            <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+                <div className="md:flex md:justify-between">
+                    <div className="mb-6 md:mb-0">
+                        <Link to="/" className="flex items-center">
+                            <span className="self-center text-2xl font-semibold whitespace-nowrap text-[#7e60bf]">
+                                Forecasted Fashion
+                            </span>
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                        <div>
+                            <h2 className="mb-6 text-sm font-semibold text-[#7e60bf] uppercase">Resources</h2>
+                            <ul className="font-medium">
+                                <li className="mb-4">
+                                    <Link to="/" className="hover:underline">
+                                        Home
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/about" className="hover:underline">
+                                        About
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="mb-6 text-sm font-semibold text-[#7e60bf] uppercase">Follow us</h2>
+                            <ul className="font-medium">
+                                <li className="mb-4">
+                                    <a
+                                        href="https://github.com/hiteshchoudhary"
+                                        className="hover:underline"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        Github
+                                    </a>
+                                </li>
+                                <li>
+                                    <Link to="/" className="hover:underline">
+                                        Discord
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="mb-6 text-sm font-semibold text-[#7e60bf] uppercase">Legal</h2>
+                            <ul className="font-medium">
+                                <li className="mb-4">
+                                    <Link to="#" className="hover:underline">
+                                        Privacy Policy
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="#" className="hover:underline">
+                                        Terms &amp; Conditions
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr className="my-6 border-gray-700 sm:mx-auto lg:my-8" />
+                <div className="sm:flex sm:items-center sm:justify-between">
+                    <span className="text-sm sm:text-center">
+                        © {new Date().getFullYear()} Forecasted Fashion. All Rights Reserved.
+                    </span>
+                    <div className="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
+                        {/* Social media icons */}
+                        {/* ... (Facebook, Discord, Twitter, GitHub, Dribbble icons) ... */}
+                    </div>
+                </div>
+            </div>
+        </footer>
     );
-};
-
-export default Footer;
+}

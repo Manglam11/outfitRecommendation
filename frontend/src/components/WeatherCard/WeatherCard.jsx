@@ -10,6 +10,7 @@ const WeatherCard = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [showRecommendations, setShowRecommendations] = useState(false);
+    const [searchPerformed, setSearchPerformed] = useState(false);
 
     const handleSearch = async () => {
         if (!city) return;
@@ -17,6 +18,7 @@ const WeatherCard = () => {
         setLoading(true);
         setError('');
         setWeatherData(null);
+        setSearchPerformed(true);
 
         try {
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=05baa93e8a6fe998324abef258422816&units=metric`);
@@ -35,34 +37,57 @@ const WeatherCard = () => {
     return (
         <div style={{
             backgroundImage: `url(${sky1})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: 'rgba(46, 33, 87, 0.7)', // Overlay color
+            backgroundBlendMode: 'overlay',
             minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
             color: "white",
-            transition: "background-image 0.5s ease-in-out",
-            marginTop: '3rem'
+            transition: "all 0.5s ease-in-out",
+            marginTop: searchPerformed ? '3rem' : '0',
+            justifyContent: searchPerformed ? 'flex-start' : 'center',
         }}>
             <Container style={{ paddingLeft: '5%', paddingRight: '5%' }}>
-                <Box my={4}>
-                    <Grid container spacing={3} alignItems="center">
-                        <Grid item xs={12} md={6}>
+                <Box my={4} display="flex" flexDirection="column" alignItems="center">
+                    <Grid container spacing={3} alignItems="center" justifyContent="center" style={{ maxWidth: '600px' }}>
+                        <Grid item xs={12} md={8}>
                             <TextField
                                 fullWidth
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                                 placeholder="Enter city name"
                                 variant="outlined"
-                                sx={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
+                                sx={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    input: { color: 'white' },
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: '#7e60bf',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#7e60bf',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#7e60bf',
+                                        },
+                                    },
+                                }}
                             />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={4}>
                             <Button
                                 onClick={handleSearch}
                                 variant="contained"
-                                color="primary"
                                 fullWidth
+                                sx={{
+                                    backgroundColor: '#7e60bf',
+                                    '&:hover': {
+                                        backgroundColor: '#6a4fa3',
+                                    },
+                                }}
                             >
                                 Search
                             </Button>
@@ -72,7 +97,7 @@ const WeatherCard = () => {
 
                 {loading && (
                     <Box display="flex" justifyContent="center" mt={4}>
-                        <CircularProgress />
+                        <CircularProgress sx={{ color: '#7e60bf' }} />
                     </Box>
                 )}
 
@@ -88,9 +113,9 @@ const WeatherCard = () => {
                             <Card variant="outlined" sx={{
                                 p: 2,
                                 mb: 2,
-                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                color: 'black',
-                                borderColor: 'rgba(255, 255, 255, 0.5)',
+                                backgroundColor: 'rgba(126, 96, 191, 0.1)',
+                                color: 'white',
+                                borderColor: '#7e60bf',
                             }}>
                                 <CardContent>
                                     <Typography variant="h4" gutterBottom>{weatherData.name}, {weatherData.sys.country}</Typography>
@@ -119,8 +144,13 @@ const WeatherCard = () => {
                             <Box mt={2} display="flex" justifyContent="center">
                                 <Button
                                     variant="contained"
-                                    color="primary"
                                     onClick={() => setShowRecommendations(!showRecommendations)}
+                                    sx={{
+                                        backgroundColor: '#7e60bf',
+                                        '&:hover': {
+                                            backgroundColor: '#6a4fa3',
+                                        },
+                                    }}
                                 >
                                     {showRecommendations ? 'Hide Outfit Recommendations' : 'Show Outfit Recommendations'}
                                 </Button>
@@ -129,9 +159,9 @@ const WeatherCard = () => {
                                 <Card variant="outlined" sx={{
                                     mt: 2,
                                     p: 2,
-                                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                    color: 'black',
-                                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                                    backgroundColor: 'rgba(126, 96, 191, 0.1)',
+                                    color: 'white',
+                                    borderColor: '#7e60bf',
                                 }}>
                                     <Recommendations weatherData={weatherData} />
                                 </Card>
